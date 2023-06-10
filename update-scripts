@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/.scripts && git pull
+cd ~/.docker_scripts && git pull
