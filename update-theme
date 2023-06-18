@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+IMAGE_PATH=$1
+IMAGE=$(basename $IMAGE_PATH)
+
+wal -i $IMAGE_PATH
+
+wpg-install.sh -ig
+wpg -a $IMAGE_PATH
+wpg -s $IMAGE
