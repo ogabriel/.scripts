@@ -1,4 +1,22 @@
-#!/bin/zsh
+#!/bin/bash
+
+if [ -z "$1" ]
+then
+    echo "No argument supplied"
+    exit
+fi
+
+if ! command -v wal &> /dev/null;
+then
+    echo "pywal could not be found"
+    exit
+fi
+
+if ! command -v wpg &> /dev/null;
+then
+    echo "wpgtk could not be found"
+    exit
+fi
 
 IMAGE_PATH=$1
 IMAGE=$(basename $IMAGE_PATH)
