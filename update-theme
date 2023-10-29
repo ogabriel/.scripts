@@ -1,19 +1,16 @@
 #!/bin/bash
 
-if [ -z "$1" ]
-then
+if [ -z "$1" ]; then
     echo "No argument supplied"
     exit
 fi
 
-if ! command -v wal &> /dev/null;
-then
+if ! command -v wal &>/dev/null; then
     echo "pywal could not be found"
     exit
 fi
 
-if ! command -v wpg &> /dev/null;
-then
+if ! command -v wpg &>/dev/null; then
     echo "wpgtk could not be found"
     exit
 fi
@@ -26,3 +23,10 @@ wpg -a $IMAGE_PATH
 wpg -s $IMAGE
 
 wal -i $IMAGE_PATH
+
+WALLPAPER=$(cat ~/.cache/wal/wal)
+ln -sf $WALLPAPER ~/.cache/wal/wallpaper
+
+if [ -d "/usr/share/sddm/themes/pywal" ]; then
+    sudo ln -sf $WALLPAPER /usr/share/sddm/themes/pywal/wallpaper
+fi
