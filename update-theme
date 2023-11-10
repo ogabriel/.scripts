@@ -21,7 +21,7 @@ if command -v wal &>/dev/null; then
     if command -v mako &>/dev/null; then
         . "${HOME}/.cache/wal/colors.sh"
 
-        conffile="$XDG_CONFIG_HOME/mako/config"
+        conffile="$HOME/.config/mako/config"
 
         declare -A colors
         colors=(
