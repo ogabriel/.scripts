@@ -5,28 +5,47 @@ if [ -z "$1" ]; then
     exit
 fi
 
-if ! command -v wal &>/dev/null; then
+IMAGE_PATH=$1
+IMAGE=$(basename $IMAGE_PATH)
+
+if command -v wal &>/dev/null; then
+    wal -i $IMAGE_PATH
+
+    WALLPAPER=$(cat ~/.cache/wal/wal)
+    ln -sf $WALLPAPER ~/.cache/wal/wallpaper
+
+    if [ -d "/usr/share/sddm/themes/pywal" ]; then
+        sudo ln -f $WALLPAPER /usr/share/sddm/themes/pywal/wallpaper
+    fi
+
+    if command -v mako &>/dev/null; then
+        . "${HOME}/.cache/wal/colors.sh"
+
+        conffile="$XDG_CONFIG_HOME/mako/config"
+
+        declare -A colors
+        colors=(
+            ["background-color"]="${background}89"
+            ["text-color"]="$foreground"
+            ["border-color"]="$color13"
+        )
+
+        for color_name in "${!colors[@]}"; do
+            sed -i "0,/^$color_name.*/{s//$color_name=${colors[$color_name]}/}" $conffile
+        done
+
+        makoctl reload
+    fi
+else
     echo "pywal could not be found"
     exit
 fi
 
-if ! command -v wpg &>/dev/null; then
+if command -v wpg &>/dev/null; then
+    wpg-install.sh -ig
+    wpg -a $IMAGE_PATH
+    wpg -s $IMAGE
+else
     echo "wpgtk could not be found"
     exit
-fi
-
-IMAGE_PATH=$1
-IMAGE=$(basename $IMAGE_PATH)
-
-wpg-install.sh -ig
-wpg -a $IMAGE_PATH
-wpg -s $IMAGE
-
-wal -i $IMAGE_PATH
-
-WALLPAPER=$(cat ~/.cache/wal/wal)
-ln -sf $WALLPAPER ~/.cache/wal/wallpaper
-
-if [ -d "/usr/share/sddm/themes/pywal" ]; then
-    sudo ln -sf $WALLPAPER /usr/share/sddm/themes/pywal/wallpaper
 fi
