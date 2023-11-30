@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 SESSION=$(tmux ls | grep -v attached | head -1 | cut -d: -f1)
 
