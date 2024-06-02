@@ -49,3 +49,10 @@ else
     echo "wpgtk could not be found"
     exit
 fi
+
+if command -v swww &>/dev/null; then
+    swww img $IMAGE_PATH
+else
+    echo "swww could not be found"
+    exit
+fi
